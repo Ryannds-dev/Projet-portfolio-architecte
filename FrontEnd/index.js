@@ -1,4 +1,4 @@
-// RECUPERATION DES TRAVAUX DE L'ARCHITECTE GRACE A L'API
+// RECUPERATION DES TRAVAUX DE L'ARCHITECTE GRACE A L'API ET INJECTION DANS HTML
 
 const URL_WORKS = "http://localhost:5678/api/works";
 const gallery = document.querySelector(".gallery");
