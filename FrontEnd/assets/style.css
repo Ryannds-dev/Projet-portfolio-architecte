@@ -178,6 +178,14 @@ nav li {
 li:hover {
   color: #b1663c;
 }
+
+/* POUR AVOIR JUSTE COMPORTEMENT DE LIEN */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+/* POUR AVOIR JUSTE COMPORTEMENT DE LIEN */
+
 #introduction {
   display: flex;
   align-items: center;
@@ -279,6 +287,20 @@ li:hover {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
+/* POUR TEXTE PAGE LOGIN  */
+#contact p {
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+
+.login {
+  margin-bottom: 300px;
+}
+/* POUR TEXTE PAGE LOGIN  */
 
 input[type="submit"] {
   font-family: "Syne";
