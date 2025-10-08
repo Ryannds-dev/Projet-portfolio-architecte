@@ -300,6 +300,15 @@ a {
 .login {
   margin-bottom: 300px;
 }
+
+.error-msg {
+  margin-top: 20px;
+  font-size: 20px;
+  font-family: "Syne";
+  font-weight: bold;
+  color: red;
+  text-decoration: none !important;
+}
 /* POUR TEXTE PAGE LOGIN  */
 
 input[type="submit"] {
