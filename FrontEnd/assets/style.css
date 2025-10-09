@@ -327,3 +327,50 @@ footer nav ul {
   justify-content: flex-end;
   margin: 2em;
 }
+
+/* POUR PAGE VERSION ADMIN  */
+
+.editor-mode-bar {
+  background: black;
+  height: 59px;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editor-mode-bar-container {
+  height: 19px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.editor-mode-bar-container p {
+  font-weight: 400px;
+  font-size: 16px;
+}
+
+.title-and-modif-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+#portfolio h2 {
+  margin: 0;
+}
+
+.modif-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}

@@ -99,5 +99,76 @@ async function filter() {
   });
 }
 
+function pageAdmin() {
+  // BARRE NOIRE DU MODE ADMIN
+  const editorBar = document.createElement("div");
+  editorBar.className = "editor-mode-bar";
+
+  const editorBarContainer = document.createElement("div");
+  editorBarContainer.className = "editor-mode-bar-container";
+
+  const icon1 = document.createElement("i");
+  icon1.className = "fa-regular fa-pen-to-square";
+
+  const modeEdition = document.createElement("p");
+  modeEdition.textContent = "Mode édition";
+
+  editorBar.appendChild(editorBarContainer);
+  editorBarContainer.appendChild(icon1);
+  editorBarContainer.appendChild(modeEdition);
+  document.body.prepend(editorBar);
+  // BARRE NOIRE DU MODE ADMIN FIN
+
+  // CHANGER LOGIN EN LOGOUT
+  const headerLogin = document.querySelector("header nav ul li:nth-child(3)");
+  headerLogin.textContent = "logout";
+
+  headerLogin.addEventListener("click", () => {
+    localStorage.removeItem("token"); // supprime le token
+    location.reload(); // recharge la page
+  });
+  // CHANGER LOGIN EN LOGOUT FIN
+
+  // BOUTON MODIFIER A COTE DU TITRE "MES PROJETS"
+  const mesProjets = document.querySelector("#portfolio h2");
+  const portfolio = document.getElementById("portfolio");
+  portfolio.removeChild(mesProjets);
+
+  const titleAndModifButton = document.createElement("div");
+  titleAndModifButton.className = "title-and-modif-button";
+
+  const modifButton = document.createElement("div");
+  modifButton.className = "modif-button";
+
+  const icon2 = document.createElement("i");
+  icon2.className = "fa-regular fa-pen-to-square";
+
+  const modifier = document.createElement("p");
+  modifier.textContent = "modifier";
+
+  modifButton.appendChild(icon2);
+  modifButton.appendChild(modifier);
+
+  titleAndModifButton.appendChild(mesProjets);
+  titleAndModifButton.appendChild(modifButton);
+  portfolio.prepend(titleAndModifButton);
+  // BOUTON MODIFIER A COTE DU TITRE "MES PROJETS" FIN
+
+  // FAIRE DISPARAITRE SECTION DES FILTRES
+  const filters = document.querySelector("#portfolio .les-filtres");
+  portfolio.removeChild(filters);
+  titleAndModifButton.style.marginBottom = "50px";
+  // FAIRE DISPARAITRE SECTION DES FILTRES FIN
+}
+
 // pas besoin d'appeler encore une fois loadWorks et loadFilters parce que les mettre en await dans filter ça implique déjà que ça les lance
-filter();
+
+async function init() {
+  const token = localStorage.getItem("token");
+  await filter();
+  if (token) {
+    pageAdmin();
+  }
+}
+
+init();
