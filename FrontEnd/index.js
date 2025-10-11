@@ -9,6 +9,7 @@ let categories = [];
 
 async function loadWorks() {
   const reponseAPI = await fetch(URL_WORKS);
+  console.log("Reponse de l'API pour loadWorks : ", reponseAPI);
   works = await reponseAPI.json();
 
   works.forEach((work) => {
@@ -161,6 +162,75 @@ function pageAdmin() {
   // FAIRE DISPARAITRE SECTION DES FILTRES FIN
 }
 
+function modifierGalerie() {
+  const modifier = document.querySelector(".modif-button");
+  modifier.addEventListener("click", () => {
+    const modalContainer = document.createElement("div");
+    modalContainer.className = "modal-container";
+
+    const modal = document.createElement("div");
+    modal.className = "modal";
+
+    const modalHeader = document.createElement("div");
+    modalHeader.className = "modal-header";
+
+    const x = document.createElement("i");
+    x.className = "fa-solid fa-xmark";
+
+    modalHeader.appendChild(x);
+    modal.appendChild(modalHeader);
+
+    const galeriePhoto = document.createElement("p");
+    galeriePhoto.textContent = "Galerie photo";
+
+    modal.appendChild(galeriePhoto);
+
+    const modalGallery = document.createElement("div");
+    modalGallery.className = "modal-gallery";
+
+    works.forEach((work) => {
+      const figure = document.createElement("figure");
+      figure.className = "work";
+
+      const img = document.createElement("img");
+      img.src = work.imageUrl;
+      img.alt = work.title;
+
+      const trashDelete = document.createElement("i");
+      trashDelete.className = "fa-solid fa-trash";
+
+      figure.appendChild(img);
+      figure.appendChild(trashDelete);
+
+      modalGallery.appendChild(figure);
+    });
+
+    const modalFooter = document.createElement("div");
+    modalFooter.className = "modal-footer";
+
+    const ajouterPhoto = document.createElement("input");
+    ajouterPhoto.type = "submit";
+    ajouterPhoto.value = "Ajouter une photo";
+
+    modalFooter.appendChild(ajouterPhoto);
+
+    modal.appendChild(modalGallery);
+    modal.appendChild(modalFooter);
+    modalContainer.appendChild(modal);
+    document.body.prepend(modalContainer);
+
+    x.addEventListener("click", () => {
+      modalContainer.remove();
+    });
+
+    modalContainer.addEventListener("click", (e) => {
+      if (e.target === modalContainer) {
+        modalContainer.remove();
+      }
+    });
+  });
+}
+
 // pas besoin d'appeler encore une fois loadWorks et loadFilters parce que les mettre en await dans filter ça implique déjà que ça les lance
 
 async function init() {
@@ -168,6 +238,7 @@ async function init() {
   await filter();
   if (token) {
     pageAdmin();
+    modifierGalerie();
   }
 }
 
