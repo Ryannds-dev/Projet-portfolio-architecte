@@ -15,6 +15,7 @@ function login() {
 
     const reponseLogin = await fetch(URL_LOGIN, {
       method: "POST",
+      //Important pour que le serveur comprenne que le texte se lit comme du json
       headers: { "Content-Type": "application/json" },
 
       //   il faut forcément envoyer un string

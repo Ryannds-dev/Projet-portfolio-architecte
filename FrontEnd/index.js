@@ -51,7 +51,7 @@ async function loadFilters() {
 }
 
 function updateWorks(works) {
-  gallery.innerHTML = ""; // 🔹 vider avant de réafficher
+  gallery.innerHTML = "";
   works.forEach((work) => {
     const figure = document.createElement("figure");
 
@@ -162,7 +162,26 @@ function pageAdmin() {
   // FAIRE DISPARAITRE SECTION DES FILTRES FIN
 }
 
+async function deleteWork(id) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+    method: "DELETE",
+    headers: {
+      // CAR UNE DES ERREURS C'EST UNAUTHORIZED CE QUI MONTRE QU'IL FAUT PROUVER QU'ON EST ADMIN
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (response.ok) {
+    console.log(`Travail avec l'id ${id} supprimé !`);
+  } else {
+    console.error("Erreur :", response.status);
+  }
+}
+
 function modifierGalerie() {
+  //AFFICHER GALLERIE
   const modifier = document.querySelector(".modif-button");
   modifier.addEventListener("click", () => {
     const modalContainer = document.createElement("div");
@@ -191,6 +210,8 @@ function modifierGalerie() {
     works.forEach((work) => {
       const figure = document.createElement("figure");
       figure.className = "work";
+      //DATASET.ID POUR NE PAS CASSER HTML AVEC DES ID
+      figure.dataset.id = work.id;
 
       const img = document.createElement("img");
       img.src = work.imageUrl;
@@ -203,8 +224,10 @@ function modifierGalerie() {
       figure.appendChild(trashDelete);
 
       modalGallery.appendChild(figure);
+      //AFFICHER GALLERIE FIN
     });
 
+    // FERMETURE FENETRE MODALE
     const modalFooter = document.createElement("div");
     modalFooter.className = "modal-footer";
 
@@ -227,6 +250,20 @@ function modifierGalerie() {
       if (e.target === modalContainer) {
         modalContainer.remove();
       }
+    });
+
+    // FERMETURE FENETRE MODALE FIN
+
+    const lesTrashDelete = document.querySelectorAll(".fa-solid.fa-trash");
+
+    lesTrashDelete.forEach((trash) => {
+      trash.addEventListener("click", (e) => {
+        const figure = e.target.closest("figure.work"); // on remonte au parent figure
+        const id = figure.dataset.id;
+
+        deleteWork(id);
+        figure.remove();
+      });
     });
   });
 }
