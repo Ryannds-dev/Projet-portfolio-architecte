@@ -461,3 +461,82 @@ footer nav ul {
   margin-top: 50px;
   cursor: pointer;
 }
+
+/* // AJOUT PHOTO */
+
+.modal-addphoto {
+  width: 420px;
+  height: 169px;
+  background: #e8f1f6;
+  /* pour centrer sans flexbox */
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.modal-addphoto img {
+  width: 76px;
+  height: 76px;
+}
+
+.modal-addphoto input {
+  color: #306685;
+  background-color: #cbd6dc;
+  border-radius: 50px;
+  margin: 0;
+}
+
+.modal-addphoto p {
+  font-weight: 400;
+  font-size: 10px;
+  margin: 0;
+}
+
+#form-photo {
+  /* IMPORTANT DE DEFINIR UNE WIDTH POUR QUE LE MARGIN AUTO FONCTIONNE */
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  text-align: left;
+  margin: 20px auto;
+}
+
+#form-photo input {
+  width: 420px;
+  height: 51px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  margin: 20px 0;
+}
+
+.input-category-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 51px;
+  margin: 20px 0;
+  position: relative;
+}
+
+.input-category-container input {
+  width: 420px;
+}
+
+.input-category-container i {
+  margin-right: 20px;
+  position: absolute;
+  right: 2%;
+}
+
+#valider-off {
+  color: white;
+  background-color: #a7a7a7;
+}
