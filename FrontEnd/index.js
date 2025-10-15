@@ -295,7 +295,9 @@ function ajouterPhoto() {
 
   //MODAL ADDPHOTO
   const modalGallery = document.querySelector(".modal-gallery");
-  modal.removeChild(modalGallery);
+  if (modalGallery) {
+    modal.removeChild(modalGallery);
+  }
 
   const modalAddPhoto = document.createElement("div");
   modalAddPhoto.className = "modal-addphoto";
@@ -320,6 +322,7 @@ function ajouterPhoto() {
   const formPhoto = document.createElement("form");
   formPhoto.id = "form-photo";
 
+  // === TITRE ===
   const labelTitre = document.createElement("label");
   labelTitre.textContent = "Titre";
   labelTitre.htmlFor = "title";
@@ -329,6 +332,10 @@ function ajouterPhoto() {
   inputTitre.name = "title";
   inputTitre.id = "title";
 
+  formPhoto.appendChild(labelTitre);
+  formPhoto.appendChild(inputTitre);
+
+  // === CATÉGORIE ===
   const labelCategory = document.createElement("label");
   labelCategory.textContent = "Catégorie";
   labelCategory.htmlFor = "category";
@@ -336,20 +343,27 @@ function ajouterPhoto() {
   const inputCategoryContainer = document.createElement("div");
   inputCategoryContainer.className = "input-category-container";
 
-  const inputCategory = document.createElement("input");
-  inputCategory.type = "text";
-  inputCategory.name = "category";
-  inputCategory.id = "category";
-  inputCategory.readOnly = true;
+  const selectCategory = document.createElement("select");
+  selectCategory.name = "category";
+  selectCategory.id = "category";
 
-  const arrowDown = document.createElement("i");
-  arrowDown.className = "fa-solid fa-arrow-down";
+  // option vide par défaut mieux
+  const optionEmpty = document.createElement("option");
+  optionEmpty.value = "";
+  optionEmpty.textContent = "Choisir une catégorie";
+  optionEmpty.disabled = true;
+  optionEmpty.selected = true;
+  selectCategory.appendChild(optionEmpty);
 
-  inputCategoryContainer.appendChild(inputCategory);
-  inputCategoryContainer.appendChild(arrowDown);
+  // remplir avec les catégories existantes
+  categories.forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name;
+    selectCategory.appendChild(option);
+  });
 
-  formPhoto.appendChild(labelTitre);
-  formPhoto.appendChild(inputTitre);
+  inputCategoryContainer.appendChild(selectCategory);
   formPhoto.appendChild(labelCategory);
   formPhoto.appendChild(inputCategoryContainer);
   modal.appendChild(formPhoto);
@@ -367,6 +381,68 @@ function ajouterPhoto() {
     modalContainer.remove();
     modifierGalerie();
   });
+
+  //IMPORTER IMG
+  // Le vrai input file caché
+  const importFileInput = document.createElement("input");
+  importFileInput.type = "file";
+  // importFileInput.accept = ".jpg, .jpeg, .png";
+  importFileInput.style.display = "none";
+  modalAddPhoto.appendChild(importFileInput);
+
+  let selectedFile;
+
+  inputAjouterPhoto.addEventListener("click", () => {
+    importFileInput.click();
+  });
+
+  // quand l’utilisateur choisit un fichier
+  importFileInput.addEventListener("change", () => {
+    const file = importFileInput.files[0]; // récupère le premier fichier choisi
+
+    if (!file) return; // si rien n’est choisi
+
+    // vérifie le type (il faut absolument que ce soit en MIME "image/..." comme file.type)
+    const validTypes = ["image/jpeg", "image/png"];
+    const isValidType = validTypes.includes(file.type);
+
+    // vérifie la taille
+    const isValidSize = file.size <= 4 * 1024 * 1024; // 4 Mo
+
+    // alertes si non respect des conditions
+    if (!isValidType) {
+      alert("Format non valide (jpg ou png uniquement)");
+      selectedFile = null;
+      return;
+    }
+
+    if (!isValidSize) {
+      alert("Fichier trop lourd (max 4 Mo)");
+      selectedFile = null;
+      return;
+    }
+
+    // si tout est bon -> on garde le fichier
+    selectedFile = file;
+
+    // création de l'image
+    const preview = document.createElement("img");
+    preview.id = "preview";
+    // création d'une URL temporaire à partir du fichier
+    preview.src = URL.createObjectURL(selectedFile);
+
+    // ajout dans le DOM
+    modalAddPhoto.innerHTML = "";
+    modalAddPhoto.appendChild(preview);
+  });
+
+  if (
+    inputTitre.value.trim() !== "" &&
+    selectCategory.value !== "" &&
+    selectedFile
+  ) {
+    footerInput.id = "valider-on";
+  }
 }
 
 // pas besoin d'appeler encore une fois loadWorks et loadFilters parce que les mettre en await dans filter ça implique déjà que ça les lance
