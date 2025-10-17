@@ -33,7 +33,7 @@ function login() {
       if (!errorMessage) {
         let errorMessage = document.createElement("p");
         console.log("Erreur", reponseLogin.status, data.message);
-        errorMessage.textContent = `Erreur, ${reponseLogin.status}, ${data.message}`;
+        errorMessage.textContent = `Erreur ${reponseLogin.status} ${data.message}, email ou mot de passe incorrect`;
         errorMessage.className = "error-msg";
         loginForm.appendChild(errorMessage);
       }
