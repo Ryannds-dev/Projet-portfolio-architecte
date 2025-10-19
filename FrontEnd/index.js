@@ -3,6 +3,7 @@
 const URL_WORKS = "http://localhost:5678/api/works";
 const URL_CATEGORIES = "http://localhost:5678/api/categories";
 const gallery = document.querySelector(".gallery");
+const modalGallery = document.querySelector(".modal-gallery");
 
 let works = [];
 let categories = [];
@@ -17,8 +18,13 @@ async function fetchCategories() {
   categories = await responseAPI.json();
 }
 
-function loadWorks(list) {
-  gallery.innerHTML = "";
+function loadWorks(list, mode = "page") {
+  if (mode === "page") {
+    gallery.innerHTML = "";
+  } else if (mode === "modal") {
+    modalGallery.innerHTML = "";
+  }
+
   list.forEach((work) => {
     const figure = document.createElement("figure");
 
@@ -26,15 +32,25 @@ function loadWorks(list) {
     img.src = work.imageUrl;
     img.alt = work.title;
 
-    const figcaption = document.createElement("figcaption");
-    figcaption.textContent = work.title;
+    figure.dataset.id = work.id;
 
     figure.appendChild(img);
-    figure.appendChild(figcaption);
 
-    gallery.appendChild(figure);
+    if (mode === "page") {
+      const figcaption = document.createElement("figcaption");
+      figcaption.textContent = work.title;
+      figure.appendChild(figcaption);
+      gallery.appendChild(figure);
+    }
+
+    if (mode === "modal") {
+      figure.className = "work";
+      const trash = document.createElement("i");
+      trash.className = "fa-solid fa-trash";
+      figure.appendChild(trash);
+      modalGallery.appendChild(figure);
+    }
   });
-  console.log(works);
 }
 
 function loadFilters() {
@@ -52,11 +68,6 @@ function loadFilters() {
     lesFiltres.appendChild(button);
   });
   console.log(categories);
-}
-
-async function refreshWorks() {
-  await fetchWorks();
-  loadWorks(works);
 }
 
 function pageFiltre() {
@@ -147,30 +158,9 @@ function modifierGalerie() {
   const modalDelete = document.querySelector(".modal-delete");
   const modalImport = document.querySelector(".modal-import");
 
-  const modalGallery = document.querySelector(".modal-gallery");
-
-  modalGallery.innerHTML = "";
-  works.forEach((work) => {
-    const figure = document.createElement("figure");
-    figure.className = "work";
-    //DATASET.ID POUR NE PAS CASSER HTML AVEC DES ID
-    figure.dataset.id = work.id;
-
-    const img = document.createElement("img");
-    img.src = work.imageUrl;
-    img.alt = work.title;
-
-    const trashDelete = document.createElement("i");
-    trashDelete.className = "fa-solid fa-trash";
-
-    figure.appendChild(img);
-    figure.appendChild(trashDelete);
-
-    modalGallery.appendChild(figure);
-
-    modalContainer.showModal();
-    //AFFICHER GALLERIE FIN
-  });
+  loadWorks(works, "modal");
+  modalContainer.showModal();
+  //AFFICHER GALLERIE FIN
 
   // FERMETURE FENETRE MODALE
   const x = document.querySelector(".fa-solid.fa-xmark");
@@ -196,7 +186,7 @@ function modifierGalerie() {
       const id = figure.dataset.id;
 
       deleteWork(id);
-      figure.remove();
+      loadWorks(works);
     });
   });
   // SUPPRIMER UNE OEUVRE FIN
@@ -217,7 +207,10 @@ function ajouterPhoto() {
   const modalDelete = document.querySelector(".modal-delete");
   const modalImport = document.querySelector(".modal-import");
 
-  const inputTitre = document.querySelector("#form-photo input");
+  const form = document.querySelector("#form-photo");
+  const inputTitre = form.querySelector('input[name="title"]');
+
+  const footerInput = document.querySelector("#valider-off");
 
   //FORM PHOTO
 
@@ -261,7 +254,10 @@ function ajouterPhoto() {
   importFileInput.addEventListener("change", () => {
     const file = importFileInput.files[0]; // récupère le premier fichier choisi
 
-    if (!file) return; // si rien n’est choisi
+    if (!file) {
+      selectedFile = null;
+      return;
+    }
 
     // vérifie le type (il faut absolument que ce soit en MIME "image/..." comme file.type)
     const validTypes = ["image/jpeg", "image/png"];
@@ -283,7 +279,7 @@ function ajouterPhoto() {
       return;
     }
 
-    // si tout est bon -> on garde le fichier
+    // si tout est bon on garde le fichier
     selectedFile = file;
 
     // création de l'image
@@ -298,13 +294,48 @@ function ajouterPhoto() {
     modalAddPhoto.appendChild(preview);
   });
 
-  if (
-    inputTitre.value.trim() !== "" &&
-    selectCategory.value !== "" &&
-    selectedFile
-  ) {
-    footerInput.id = "valider-on";
+  function checkForm() {
+    if (
+      inputTitre.value.trim() !== "" &&
+      selectCategory.value !== "" &&
+      selectedFile
+    ) {
+      footerInput.id = "valider-on";
+    } else {
+      footerInput.id = "valider-off";
+    }
   }
+
+  inputTitre.addEventListener("input", checkForm);
+  selectCategory.addEventListener("change", checkForm);
+  importFileInput.addEventListener("change", checkForm);
+
+  // ENVOYER LE WORK
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (footerInput.id !== "valider-on") return;
+
+    const token = localStorage.getItem("token");
+    // L'API demande ce type de form pour le body
+    const fd = new FormData();
+    fd.append("image", selectedFile);
+    fd.append("title", inputTitre.value.trim());
+    fd.append("category", selectCategory.value);
+
+    const res = await fetch(URL_WORKS, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: fd,
+    });
+    if (!res.ok) return;
+
+    await fetchWorks();
+    loadWorks(works);
+
+    form.reset();
+    selectedFile = null;
+    footerInput.id = "valider-off";
+  });
 }
 
 // pas besoin d'appeler encore une fois loadWorks et loadFilters parce que les mettre en await dans filter ça implique déjà que ça les lance

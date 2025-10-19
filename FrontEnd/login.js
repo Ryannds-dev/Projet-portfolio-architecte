@@ -8,7 +8,7 @@ function login() {
     // j'essayais de console.log ce que j'entrais mais sans preventDefault ça recharge la page donc pas le temps
 
     // et vu que tes inputs ont bien un name tu peux les prendre par ce name
-    const email = loginForm.email.value;
+    const email = loginForm.email.value.trim();
     const password = loginForm.password.value;
     console.log(email);
     console.log(password);
