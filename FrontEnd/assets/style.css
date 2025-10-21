@@ -184,7 +184,7 @@ a {
   text-decoration: none;
   color: inherit;
 }
-/* POUR AVOIR JUSTE COMPORTEMENT DE LIEN */
+/* POUR AVOIR JUSTE COMPORTEMENT DE LIEN FIN */
 
 #introduction {
   display: flex;
@@ -246,6 +246,8 @@ a {
   color: white;
 }
 
+/* **************************** FILTRES FIN ****************************** */
+
 .gallery {
   width: 100%;
   display: grid;
@@ -288,7 +290,7 @@ a {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-/* POUR TEXTE PAGE LOGIN  */
+/* **************************** PAGE LOGIN ****************************** */
 #contact p {
   font-weight: 500;
   text-decoration: underline;
@@ -309,9 +311,10 @@ a {
   color: red;
   text-decoration: none !important;
 }
-/* POUR TEXTE PAGE LOGIN  */
+/* **************************** PAGE LOGIN FIN ****************************** */
 
-input[type="submit"] {
+input[type="submit"],
+input[type="button"] {
   font-family: "Syne";
   font-weight: 700;
   color: white;
@@ -328,7 +331,7 @@ footer nav ul {
   margin: 2em;
 }
 
-/* POUR PAGE VERSION ADMIN  */
+/* **************************** PAGE ADMIN ****************************** */
 
 .editor-mode-bar {
   background: black;
@@ -377,6 +380,7 @@ footer nav ul {
   font-size: 14px;
 }
 
+/* ------- LES MODALES ------- */
 .modal-container[open] {
   background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
@@ -397,8 +401,6 @@ footer nav ul {
   padding: 30px;
 }
 
-/* // SUPPRIMER  PHOTO */
-
 .modal-header {
   display: flex;
   justify-content: end;
@@ -415,6 +417,31 @@ footer nav ul {
   text-align: center;
   margin-bottom: 60px;
 }
+
+.modal-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-footer::before {
+  content: "";
+  display: block;
+  border-bottom: 1px solid #b3b3b3;
+  width: 80%;
+}
+.modal input {
+  height: 36px;
+  width: 237px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  margin-top: 50px;
+  cursor: pointer;
+}
+
+/* // SUPPRIMER  PHOTO */
 
 .modal-gallery {
   display: flex;
@@ -442,29 +469,6 @@ footer nav ul {
   color: white;
   background-color: black;
   border-radius: 4px;
-  cursor: pointer;
-}
-
-.modal-footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-footer::before {
-  content: "";
-  display: block;
-  border-bottom: 1px solid #b3b3b3;
-  width: 80%;
-}
-.modal input {
-  height: 36px;
-  width: 237px;
-  font-size: 1.2em;
-  border: none;
-  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-  margin-top: 50px;
   cursor: pointer;
 }
 

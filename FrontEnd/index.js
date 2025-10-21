@@ -71,7 +71,6 @@ function loadFilters() {
 }
 
 function pageFiltre() {
-  loadWorks(works);
   loadFilters();
 
   const buttons = document.querySelectorAll(".un-filtre");
@@ -122,9 +121,8 @@ function pageAdmin() {
   // FAIRE DISPARAITRE SECTION DES FILTRES ET MES PROJETS DE BASE
   const filters = document.querySelector("#portfolio .les-filtres");
   const mesProjets = document.querySelector("#portfolio .mes-projets");
-  portfolio.removeChild(filters);
+  filters.style.display = "none";
   mesProjets.style.display = "none";
-  // FAIRE DISPARAITRE SECTION DES FILTRES FIN
 }
 
 async function deleteWork(id) {
@@ -186,7 +184,6 @@ function modifierGalerie() {
       const id = figure.dataset.id;
 
       deleteWork(id);
-      loadWorks(works);
     });
   });
   // SUPPRIMER UNE OEUVRE FIN
@@ -216,7 +213,12 @@ function ajouterPhoto() {
 
   const selectCategory = document.querySelector("select");
 
+  selectCategory.innerHTML = `
+  <option value="" disabled selected>Choisir une catégorie</option>
+`;
+
   // remplir avec les catégories existantes
+
   categories.forEach((category) => {
     const option = document.createElement("option");
     option.value = category.id;
@@ -311,8 +313,7 @@ function ajouterPhoto() {
   importFileInput.addEventListener("change", checkForm);
 
   // ENVOYER LE WORK
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  form.addEventListener("submit", async () => {
     if (footerInput.id !== "valider-on") return;
 
     const token = localStorage.getItem("token");
@@ -329,24 +330,20 @@ function ajouterPhoto() {
     });
     if (!res.ok) return;
 
-    await fetchWorks();
-    loadWorks(works);
-
-    form.reset();
     selectedFile = null;
     footerInput.id = "valider-off";
   });
 }
-
-// pas besoin d'appeler encore une fois loadWorks et loadFilters parce que les mettre en await dans filter ça implique déjà que ça les lance
 
 async function init() {
   const token = localStorage.getItem("token");
 
   await fetchWorks();
   await fetchCategories();
-  pageFiltre();
-  if (token) {
+  loadWorks(works);
+  if (!token) {
+    pageFiltre();
+  } else {
     pageAdmin();
     modifierGalerieWaiter();
   }
