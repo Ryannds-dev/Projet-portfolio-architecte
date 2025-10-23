@@ -195,17 +195,17 @@ function modifierGalerie() {
   ajouterPhotoButton.addEventListener("click", () => {
     modalDelete.style.display = "none";
     modalImport.style.display = "block";
-    ajouterPhoto();
+    ajouterPhotoModale();
   });
 }
 
-function ajouterPhoto() {
+function ajouterPhotoModale() {
   const modalContainer = document.querySelector(".modal-container");
 
   const modalDelete = document.querySelector(".modal-delete");
   const modalImport = document.querySelector(".modal-import");
 
-  const form = document.querySelector(".form-photo");
+  const form = document.querySelector("#form-photo");
   const inputTitre = form.querySelector('input[name="title"]');
 
   const footerInput = document.querySelector("#valider-off");
@@ -258,8 +258,7 @@ function ajouterPhoto() {
     importFileInput.click();
   };
 
-  // quand l’utilisateur choisit un fichier
-  importFileInput.addEventListener("change", () => {
+  function checkForm() {
     const file = importFileInput.files[0]; // récupère le premier fichier choisi
 
     if (!file) {
@@ -297,10 +296,6 @@ function ajouterPhoto() {
     groupUserSelect.style.display = "none";
     preview.style.display = "flex";
 
-    checkForm();
-  });
-
-  function checkForm() {
     if (
       inputTitre.value.trim() !== "" &&
       selectCategory.value !== "" &&
@@ -312,11 +307,12 @@ function ajouterPhoto() {
     }
   }
 
-  inputTitre.addEventListener("input", checkForm);
-  selectCategory.addEventListener("change", checkForm);
+  importFileInput.onchange = checkForm;
+  inputTitre.oninput = checkForm;
+  selectCategory.onchange = checkForm;
 
   // ENVOYER LE WORK
-  form.addEventListener("submit", async (e) => {
+  form.onsubmit = async (e) => {
     e.preventDefault();
     if (footerInput.id !== "valider-on") return;
 
@@ -341,13 +337,13 @@ function ajouterPhoto() {
     loadWorks(works, "modal");
 
     resetFormulaireModale();
-  });
+  };
 }
 
 function resetFormulaireModale() {
   const preview = document.getElementById("preview");
   const groupUserSelect = document.querySelector(".group-user-select");
-  const form = document.querySelector(".form-photo");
+  const form = document.querySelector("#form-photo");
 
   const importFileInput = form.querySelector('input[type="file"]');
   const inputTitre = form.querySelector('input[name="title"]');
