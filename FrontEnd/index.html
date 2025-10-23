@@ -25,48 +25,6 @@
         <p>Mode édition</p>
       </div>
     </div>
-    <dialog class="modal-container">
-      <div class="modal modal-delete">
-        <div class="modal-header">
-          <i class="fa-solid fa-xmark"></i>
-        </div>
-        <p>Galerie photo</p>
-        <div class="modal-gallery"></div>
-        <div class="modal-footer">
-          <input type="button" value="Ajouter une photo" />
-        </div>
-      </div>
-
-      <div class="modal modal-import">
-        <div class="modal-header">
-          <i class="fa-solid fa-arrow-left"></i>
-          <i class="fa-solid fa-xmark x"></i>
-        </div>
-        <p>Ajout photo</p>
-        <div class="modal-addphoto">
-          <img src="./assets/icons/photo.png" alt="photo icon" />
-          <input type="button" value="+ Ajouter photo" />
-          <p>jpg, png : 4mo max</p>
-          <input type="file" />
-        </div>
-        <form id="form-photo">
-          <label for="title">Titre</label>
-          <input type="text" name="title" id="title" />
-          <label for="category">Catégorie</label>
-          <div class="input-category-container">
-            <select name="category" id="category"></select>
-          </div>
-        </form>
-        <div class="modal-footer">
-          <input
-            id="valider-off"
-            type="submit"
-            form="form-photo"
-            value="Valider"
-          />
-        </div>
-      </div>
-    </dialog>
 
     <header>
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -128,6 +86,54 @@
           <input type="submit" value="Envoyer" />
         </form>
       </section>
+
+      <dialog class="modal-container">
+      <div class="modal modal-delete">
+        <div class="modal-header">
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+        <p>Galerie photo</p>
+        <div class="modal-gallery"></div>
+        <div class="modal-footer">
+          <input type="button" value="Ajouter une photo" />
+        </div>
+      </div>
+
+      <div class="modal modal-import">
+        <div class="modal-header">
+          <i class="fa-solid fa-arrow-left"></i>
+          <i class="fa-solid fa-xmark x"></i>
+        </div>
+        <p>Ajout photo</p>
+        <form class="form-photo">
+          <div class="modal-addphoto" >
+            <div class="group-user-select">
+              <img src="./assets/icons/photo.png" alt="photo icon" />
+              <input type="button" value="+ Ajouter photo" />
+              <p>jpg, png : 4mo max</p>
+              <input type="file" />
+            </div>
+            <img id="preview"></img>
+          </div>
+          <div id="champs-photo">
+            <label for="title">Titre</label>
+            <input type="text" name="title" id="title" />
+            <label for="category">Catégorie</label>
+            <div class="input-category-container">
+              <select name="category" id="category"></select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input
+              id="valider-off"
+              type="submit"
+              form="form-photo"
+              value="Valider"
+            />
+          </div>
+        </form>
+      </div>
+    </dialog>
     </main>
 
     <footer>
