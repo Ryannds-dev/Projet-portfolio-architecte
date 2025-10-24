@@ -348,7 +348,7 @@ function resetFormulaireModale() {
   const importFileInput = form.querySelector('input[type="file"]');
   const inputTitre = form.querySelector('input[name="title"]');
   const selectCategory = form.querySelector("select");
-  const footerInput = document.querySelector("#valider-on");
+  const footerInput = document.querySelector('input[type="submit"]');
 
   preview.style.display = "none";
   groupUserSelect.style.display = "flex";
