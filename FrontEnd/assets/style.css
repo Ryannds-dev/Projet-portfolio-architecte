@@ -107,6 +107,10 @@ section {
 }
 body {
   line-height: 1;
+
+  /* CORRECTIF D'APRES SOUTENANCE */
+  overflow-x: hidden;
+  /* CORRECTIF D'APRES SOUTENANCE FIN */
 }
 ol,
 ul {
@@ -400,6 +404,10 @@ footer nav ul {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* CORRECTIF D'APRES SOUTENANCE */
+  overflow-y: hidden;
+  /* CORRECTIF D'APRES SOUTENANCE FIN */
 }
 
 .modal {
@@ -461,7 +469,7 @@ footer nav ul {
   margin-bottom: 60px;
 
   /* CORRECTIF D'APRES SOUTENANCE */
-  max-height: 30vh;
+  max-height: 50vh;
   overflow-y: auto;
   overflow-x: hidden;
   /* CORRECTIF D'APRES SOUTENANCE FIN */
@@ -617,3 +625,11 @@ footer nav ul {
   color: white;
   background-color: #1d6154;
 }
+
+/* CORRECTIF D'APRES SOUTENANCE */
+@media screen and (max-width: 1920px) {
+  .modal {
+    transform: scale(0.9);
+  }
+}
+/* CORRECTIF D'APRES SOUTENANCE FIN */
