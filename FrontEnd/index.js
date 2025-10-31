@@ -234,9 +234,6 @@ function ajouterPhotoModale() {
   const leftArrow = document.querySelector(".fa-solid.fa-arrow-left");
 
   leftArrow.addEventListener("click", () => {
-    modalImport.style.display = "none";
-    modalDelete.style.display = "block";
-
     resetFormulaireModale();
   });
 
@@ -348,7 +345,13 @@ function resetFormulaireModale() {
   const importFileInput = form.querySelector('input[type="file"]');
   const inputTitre = form.querySelector('input[name="title"]');
   const selectCategory = form.querySelector("select");
-  const footerInput = document.querySelector('input[type="submit"]');
+
+  //CORRECTIF D'APRES SOUTENANCE
+  const footerInput = document.querySelector(".bouton-validation");
+
+  const modalDelete = document.querySelector(".modal-delete");
+  const modalImport = document.querySelector(".modal-import");
+  //CORRECTIF D'APRES SOUTENANCE FIN
 
   preview.style.display = "none";
   groupUserSelect.style.display = "flex";
@@ -360,6 +363,11 @@ function resetFormulaireModale() {
 
   footerInput.id = "valider-off";
   selectedFile = null;
+
+  //CORRECTIF D'APRES SOUTENANCE
+  modalDelete.style.display = "block";
+  modalImport.style.display = "none";
+  //CORRECTIF D'APRES SOUTENANCE FIN
 }
 
 async function init() {

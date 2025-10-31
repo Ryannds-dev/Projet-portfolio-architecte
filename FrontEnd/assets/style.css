@@ -459,6 +459,12 @@ footer nav ul {
   padding-left: 10%;
   padding-right: 10%;
   margin-bottom: 60px;
+
+  /* CORRECTIF D'APRES SOUTENANCE */
+  max-height: 30vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* CORRECTIF D'APRES SOUTENANCE FIN */
 }
 
 .work {
