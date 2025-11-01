@@ -469,7 +469,7 @@ footer nav ul {
   margin-bottom: 60px;
 
   /* CORRECTIF D'APRES SOUTENANCE */
-  max-height: 50vh;
+  max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
   /* CORRECTIF D'APRES SOUTENANCE FIN */
