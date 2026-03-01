@@ -1,4 +1,4 @@
-# Backend API - Sophie Bluel
+# Backend API - Homii Interior
 
 Ce dossier contient le code backend du projet
 
@@ -20,14 +20,14 @@ npm start
 
 **Laisser tourner ce terminal pour travailler**
 
-## Compte de test pour Sophie Bluel
+## Compte de test
 
-|         email         | password |
-| :-------------------: | :------: |
-| sophie.bluel@test.tld |  S0phie  |
+|     email      | password |
+| :------------: | :------: |
+| test@gmail.com |   test   |
 
 ## Accéder à Swagger
 
-[documentation Swagger](cd)
+[documentation Swagger](http://localhost:5678/api-docs)
 
 Pour lire la documentation, utiliser Chrome ou Firefox

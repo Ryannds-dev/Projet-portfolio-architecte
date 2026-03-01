@@ -1,5 +1,7 @@
 const db = require('./../models');
 const Works = db.works
+const fs = require('fs');
+const path = require('path');
 
 exports.findAll = async (req, res) =>  {
 	const works = await Works.findAll({include: 'category'});
@@ -27,10 +29,16 @@ exports.create = async (req, res) => {
 
 exports.delete = async (req, res) => {
 	try{
-		await Works.destroy({where:{id: req.params.id}})
+		const work = await Works.findOne({where: {id: req.params.id}});
+		if (!work) return res.status(404).json({error: 'Work not found'});
+
+		const filename = path.basename(work.imageUrl);
+		const filepath = path.join(__dirname, '..', 'images', filename);
+		fs.unlink(filepath, () => {});
+
+		await work.destroy();
 		return res.status(204).json({message: 'Work Deleted Successfully'})
 	}catch(e){
 		return res.status(500).json({error: new Error('Something went wrong')})
 	}
-
 }
